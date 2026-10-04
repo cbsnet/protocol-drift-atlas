@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cbsnet/protocol-drift-atlas/schemas/perturbation_registry.schema.json",
+  "title": "Protocol Drift Atlas Perturbation Registry",
+  "description": "Schema for the versioned v0.1 registry of declared, unvalidated protocol-sensitivity transformations. The registry freezes the four perturbations used in v0.1 and prevents scope drift before the first tagged release.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registry_version",
+    "project",
+    "scope",
+    "perturbations"
+  ],
+  "properties": {
+    "registry_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "project": {
+      "type": "string",
+      "const": "protocol-drift-atlas"
+    },
+    "scope": {
+      "type": "string",
+      "const": "v0.1"
+    },
+    "perturbations": {
+      "type": "array",
+      "description": "Exactly four perturbations are allowed in v0.1. Any addition requires a version bump and a documented scope change.",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/perturbation"
+      }
+    }
+  },
+  "$defs": {
+    "perturbation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "perturbation_id",
+        "family",
+        "perturbation_level",
+        "status",
+        "description",
+        "expected_invariance_claim",
+        "why_this_may_fail",
+        "eligible_for_primary_claims",
+        "prompt_template_id",
+        "positive_example",
+        "negative_example"
+      ],
+      "properties": {
+        "perturbation_id": {
+          "type": "string",
+          "description": "Stable identifier. Must start with P1, P2, P3 or P4, followed by a short uppercase label.",
+          "pattern": "^P[1-4]_[A-Z0-9_]+$"
+        },
+        "family": {
+          "type": "string",
+          "description": "Human-readable family name for the transformation.",
+          "minLength": 1
+        },
+        "perturbation_level": {
+          "type": "string",
+          "description": "Level at which the transformation operates. protocol = rubric or ordering. prompt = label wording. framing = evaluator role or framing.",
+          "enum": [
+            "protocol",
+            "prompt",
+            "framing"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "In v0.1 every perturbation must be declared_unvalidated. Human validation is a funded extension.",
+          "const": "declared_unvalidated"
+        },
+        "description": {
+          "type": "string",
+          "description": "Neutral description of what is changed.",
+          "minLength": 1
+        },
+        "expected_invariance_claim": {
+          "type": "string",
+          "description": "The invariance claim the transformation is intended to preserve. This is a declared assumption, not a validated fact.",
+          "minLength": 1
+        },
+        "why_this_may_fail": {
+          "type": "string",
+          "description": "Known mechanisms by which the invariance claim may be false. This field is required so that no perturbation can be registered without an explicit failure hypothesis.",
+          "minLength": 1
+        },
+        "eligible_for_primary_claims": {
+          "type": "boolean",
+          "description": "In v0.1 this must be false for every perturbation. No v0.1 transformation may support a primary empirical claim.",
+          "const": false
+        },
+        "prompt_template_id": {
+          "type": "string",
+          "description": "Filename of the Jinja2 template associated with this perturbation, located in src/protocol_drift_atlas/prompts/.",
+          "pattern": "^[a-z0-9_]+\\.jinja2$"
+        },
+        "positive_example": {
+          "type": "string",
+          "description": "An example that illustrates the intended transformation.",
+          "minLength": 1
+        },
+        "negative_example": {
+          "type": "string",
+          "description": "An example that looks similar but must not be classified as this perturbation.",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

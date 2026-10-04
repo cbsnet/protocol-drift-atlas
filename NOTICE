@@ -1,0 +1,16 @@
+Protocol Drift Atlas
+Copyright 2026 Antonello Sale
+
+This product includes software developed as part of the
+Protocol Drift Atlas project.
+
+The source code is licensed under the Apache License, Version 2.0.
+Documentation, the perturbation registry, the de-risked demonstration
+corpus, and example Stability Cards are licensed under the Creative
+Commons Attribution 4.0 International License (CC BY 4.0).
+
+Third-party dependencies are listed in pyproject.toml and remain
+subject to their respective licenses.
+
+The names "Protocol Drift Atlas" and "PDA" are project identifiers
+and are not claimed as trademarks.

@@ -1,0 +1,29 @@
+# Reference hosted configuration.
+#
+# Uses gpt-4o-mini-2024-07-18 through the OpenAI API.
+# The API key is read from the environment variable named below.
+# Do not commit any file containing the actual key.
+
+provider:
+  provider_id: openai
+  api_key_env: OPENAI_API_KEY
+  base_url: null
+
+model:
+  requested: gpt-4o-mini-2024-07-18
+
+execution:
+  role: reference_hosted
+  runs: 2
+
+parameters:
+  temperature: 0.0
+  top_p: 1.0
+  max_output_tokens: 50
+  seed_requested: null
+
+paths:
+  registry: data/perturbation_registry.yaml
+  corpus: data/demo_corpus.jsonl
+  response_schema: schemas/judgment_response.schema.json
+  output_dir: outputs/runs/reference_hosted

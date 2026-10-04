@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cbsnet/protocol-drift-atlas/schemas/execution_manifest.schema.json",
+  "title": "Protocol Drift Atlas Execution Manifest",
+  "description": "A sanitized, provider-neutral record of one Protocol Drift Atlas execution configuration. The manifest must contain no credentials, authorization headers, personal identifiers, or secret values. It is the traceability contract between the runner and the reporting layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "toolkit",
+    "execution",
+    "provider",
+    "model",
+    "parameters",
+    "protocol",
+    "artifacts",
+    "provider_extras"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "toolkit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "source_revision"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "protocol-drift-atlas"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+([-.][A-Za-z0-9.]+)?$"
+        },
+        "source_revision": {
+          "type": ["string", "null"],
+          "description": "Git commit SHA or null when unavailable."
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "timestamp_utc",
+        "execution_role"
+      ],
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timestamp_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "execution_role": {
+          "type": "string",
+          "enum": [
+            "reference_hosted",
+            "comparison_hosted",
+            "custom"
+          ]
+        }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id",
+        "adapter_id",
+        "adapter_version"
+      ],
+      "properties": {
+        "provider_id": {
+          "type": "string",
+          "enum": [
+            "openai",
+            "mock",
+            "custom"
+          ]
+        },
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endpoint_type": {
+          "type": ["string", "null"],
+          "description": "For example: chat_completions, responses_api, local_http, or null for mock providers."
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_requested",
+        "model_returned"
+      ],
+      "properties": {
+        "model_requested": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_returned": {
+          "type": ["string", "null"],
+          "description": "Provider-reported model identifier, if available. A mismatch with model_requested is recorded rather than hidden."
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "temperature",
+        "top_p",
+        "max_output_tokens",
+        "seed_requested",
+        "seed_supported",
+        "reproducibility_note"
+      ],
+      "properties": {
+        "temperature": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "top_p": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "max_output_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "seed_requested": {
+          "type": ["integer", "null"]
+        },
+        "seed_supported": {
+          "type": "boolean"
+        },
+        "reproducibility_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable note stating that repeatability is measured rather than assumed."
+        }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_protocol_id",
+        "prompt_template_id",
+        "prompt_template_hash",
+        "perturbation_registry_hash",
+        "perturbation_ids"
+      ],
+      "properties": {
+        "baseline_protocol_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt_template_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt_template_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "perturbation_registry_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "perturbation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^P[1-4]_[A-Z0-9_]+$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset_id",
+        "dataset_hash",
+        "response_schema_hash"
+      ],
+      "properties": {
+        "dataset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dataset_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "response_schema_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "provider_extras": {
+      "type": "object",
+      "description": "Sanitized provider-specific metadata. Must not contain credentials, authorization headers, personal identifiers, or secret values. Scoring and reporting do not read this field for primary metrics.",
+      "additionalProperties": true
+    }
+  }
+}

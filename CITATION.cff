@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use Protocol Drift Atlas, please cite the archived release."
+title: "Protocol Drift Atlas"
+abstract: >
+  An open, provider-agnostic toolkit for measuring and reporting observed
+  sensitivity in LLM safety judgments under declared changes to the
+  evaluation protocol, prompt, or framing. The v0.1 release includes a
+  versioned perturbation registry, a sanitized execution manifest, a
+  reproducible runner, a scorer for baseline–variant agreement, an
+  Exploratory Stability Card, and a counterexample log.
+type: software
+version: "0.1.0"
+date-released: 2026-10-04
+license: Apache-2.0
+repository-code: "https://github.com/cbsnet/protocol-drift-atlas"
+url: "https://github.com/cbsnet/protocol-drift-atlas"
+keywords:
+  - llm
+  - evaluation
+  - ai-safety
+  - llm-as-a-judge
+  - protocol-sensitivity
+  - reproducibility
+authors:
+  - family-names: "Sale"
+    given-names: "Antonello"

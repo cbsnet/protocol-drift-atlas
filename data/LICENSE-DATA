@@ -1,0 +1,48 @@
+The contents of this directory are licensed under the
+Creative Commons Attribution 4.0 International License (CC BY 4.0).
+
+You are free to:
+
+  Share — copy and redistribute the material in any medium or format.
+  Adapt — remix, transform, and build upon the material for any purpose,
+  even commercially.
+
+Under the following terms:
+
+  Attribution — You must give appropriate credit, provide a link to the
+  license, and indicate if changes were made. You may do so in any
+  reasonable manner, but not in any way that suggests the licensor
+  endorses you or your use.
+
+  No additional restrictions — You may not apply legal terms or
+  technological measures that legally restrict others from doing
+  anything the license permits.
+
+Full license text:
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+---
+
+Scope
+
+This license applies to:
+
+  - data/perturbation_registry.yaml
+  - data/demo_corpus.jsonl
+  - data/README.md
+  - data/LICENSE-DATA (this file)
+
+It does not apply to source code in src/, which is licensed under the
+Apache License 2.0 (see the LICENSE file in the repository root).
+
+---
+
+About the demonstration corpus
+
+All demonstration items are public, author-created, de-risked, and
+non-operational. They are not a safety benchmark. They are not designed
+to estimate model safety, policy compliance, evaluator accuracy, or the
+prevalence of protocol sensitivity.
+
+Results on this corpus do not establish real-world model safety, policy
+compliance, evaluator error, or deployment suitability.
